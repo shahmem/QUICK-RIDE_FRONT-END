@@ -1,0 +1,26 @@
+/* Container with custom scrollbar */
+.scrollable-container {
+    overflow-y: auto;
+  }
+  
+  /* Scrollbar Track */
+  .scrollable-container::-webkit-scrollbar-track {
+    background-color: #e5e7eb; /* Light gray */
+    border-radius: 20px;
+  }
+  
+  /* Scrollbar Thumb */
+  .scrollable-container::-webkit-scrollbar-thumb {
+    background-color: #a7a7a7; /* Blue */
+    border-radius: 30px;
+  }
+  
+  /* Scrollbar Width */
+  .scrollable-container::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+  }
+  
+  /* Firefox Scrollbar Styling */
+  /* .clip-custom {
+    clip-path: ellipse(80% 70% at 100% 100%);
+  } */
