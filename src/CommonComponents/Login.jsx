@@ -19,7 +19,7 @@ function Login() {
       
       try {
         const response = await axios.post("http://localhost:5000/api/login", data);
-        alert("Login successful:", response.data);
+        alert(response.data.message);
         const { role } = response.data;
         console.log(response.data)
         if (role === "rider") {

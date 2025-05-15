@@ -24,7 +24,7 @@ function DriverRouter() {
            <Route path="/driverhistory" element={<History />} />
         </Routes>
     </>
-  )
+  ) 
 }
 
 export default DriverRouter

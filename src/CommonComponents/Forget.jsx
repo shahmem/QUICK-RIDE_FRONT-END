@@ -24,7 +24,7 @@ function Forget() {
     try {
       const response = await axios.post("http://localhost:5000/api/forgot-password", data);
       setUserEmail(data.email);
-      console.log(data);
+//    console.log(data);
       
       setEmailExists(true);
       setMessage(response.data.message);
@@ -36,7 +36,7 @@ function Forget() {
   const resetPassword = async (data) => {
     try {
       const response = await axios.post("http://localhost:5000/api/reset-password", {
-        // email: userEmail,
+        email: userEmail,
         newPassword: data.newPassword,
       });
       setMessage(response.data.message);
@@ -56,7 +56,10 @@ function Forget() {
 
           {!emailExists ? (
             // Email verification form
-            <form onSubmit={handleSubmit(checkEmail)} className="w-full flex flex-col gap-4 mt-6">
+            <form
+              onSubmit={handleSubmit(checkEmail)}
+              className="w-full flex flex-col gap-4 mt-6"
+            >
               <input
                 {...register("email", {
                   required: "Email is required",
@@ -69,46 +72,71 @@ function Forget() {
                 className="border p-2 rounded-md"
                 placeholder="Enter your email"
               />
-              {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
-              <button type="submit" className="bg-[#3aad92] text-white py-2 rounded-md">
+              {errors.email && (
+                <p className="text-xs text-red-500">{errors.email.message}</p>
+              )}
+              <button
+                type="submit"
+                className="bg-[#3aad92] text-white py-2 rounded-md"
+              >
                 Verify Email
               </button>
             </form>
           ) : (
             // Password reset form
-            <form onSubmit={handleSubmit(resetPassword)} className="w-full flex flex-col gap-4 mt-6">
+            <form
+              onSubmit={handleSubmit(resetPassword)}
+              className="w-full flex flex-col gap-4 mt-6"
+            >
               <input
                 {...register("newPassword", {
-                  required: "New password is required",
+                  required: "New Password is required",
                   pattern: {
-                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                    message: "At least 8 characters, include letters, numbers, and symbols.",
+                    value:
+                      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                    message:
+                      "At least 8 characters and include letters, numbers, and symbols.",
                   },
-                })}
+                })}b
                 type="password"
-                className="border p-2 rounded-md"
-                placeholder="Enter new password"
+                className="focus:outline-none p-1 "
+                placeholder="New Password"
               />
-              {errors.newPassword && <p className="text-xs text-red-500">{errors.newPassword.message}</p>}
+              {errors.newPassword && (
+                <p className="text-xs text-red-500">
+                  {errors.newPassword.message}
+                </p>
+              )}
 
               <input
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
-                  validate: (value) => value === newPassword || "Passwords do not match",
+                  validate: (value) =>
+                    value === newPassword || "Passwords do not match",
                 })}
                 type="password"
                 className="border p-2 rounded-md w-full"
                 placeholder="Re-enter new password"
               />
-              {errors.confirmPassword && <p className="text-xs text-red-500">{errors.confirmPassword.message}</p>}
+              {errors.confirmPassword && (
+                <p className="text-xs text-red-500">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
 
-              <button type="submit" className="bg-[#3aad92] text-white py-2 rounded-md">
+              <button
+                type="submit"
+                className="bg-[#3aad92] text-white py-2 rounded-md"
+              >
                 Reset Password
               </button>
             </form>
           )}
 
-          <button onClick={() => navigate("/login")} className="mt-4 text-sm text-[#3aad92] underline">
+          <button
+            onClick={() => navigate("/login")}
+            className="mt-4 text-sm text-[#3aad92] underline"
+          >
             Back to Login
           </button>
         </div>

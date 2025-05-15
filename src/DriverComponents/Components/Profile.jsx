@@ -1,5 +1,6 @@
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 
@@ -7,14 +8,25 @@ function Profile({setSubmitted}) {
   const [saveddata, setSaveddata] = useState([]);
   const navigate =useNavigate()
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("formData")) || [];
-    setSaveddata(data);
-    console.log(data);
-    
+ useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/formdata"); 
+        const data = response.data;
+        setSaveddata(data);
+        if (data && Object.keys(data).length > 0) {
+        //   setSubmitted(true);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
+
   const handleEdit =()=>{
-    setSubmitted(false)
+    // setSubmitted(false)
     navigate('/driverprofile')
 
   }
