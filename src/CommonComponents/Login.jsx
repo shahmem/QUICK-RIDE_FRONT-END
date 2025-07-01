@@ -20,7 +20,7 @@ function Login() {
     const onSubmit = async(data) => {
       
       try {
-        const response = await axios.post("http://localhost:5000/api/login", data);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/login`, data);
         alert(response.data.message);
         const { token,role } = response.data;
         localStorage.setItem("role", role);

@@ -18,7 +18,7 @@ function Booking() {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          "http://localhost:5000/api/bookings/lists",
+          `${import.meta.env.VITE_API_URL}/api/bookings/lists`,
           {
             headers: {
               "Content-Type": "multipart/form-data",

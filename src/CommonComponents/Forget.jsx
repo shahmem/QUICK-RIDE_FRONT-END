@@ -22,7 +22,7 @@ function Forget() {
 
   const checkEmail = async (data) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/forgot-password", data);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/forgot-password`, data);
       setUserEmail(data.email);
 //    console.log(data);
       

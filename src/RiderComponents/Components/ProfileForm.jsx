@@ -42,7 +42,7 @@ function ProfileForm() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:5000/api/riderprofile",
+        `${import.meta.env.VITE_API_URL}/api/riderprofile`,
         formData,
         {
           headers: {
@@ -69,7 +69,7 @@ function ProfileForm() {
     try {
       const token = localStorage.getItem("token");
       // console.log("Token from localStorage:", token);
-      const res = await axios.get("http://localhost:5000/api/riderprofile", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/riderprofile`, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`, 

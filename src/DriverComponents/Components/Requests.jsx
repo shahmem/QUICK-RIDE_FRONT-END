@@ -15,7 +15,7 @@ function Requests() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/bookings/requests");
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/bookings/requests`);
       console.log("✅ Response:", res.data); // actual data
       setRequests(res.data); // save to state
     } catch (err) {
@@ -27,7 +27,7 @@ function Requests() {
     try {
       const token = localStorage.getItem('token');
       const res = await axios.patch(
-        `http://localhost:5000/api/bookings/approve/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/bookings/approve/${id}`,
         {},
         {
           headers: {

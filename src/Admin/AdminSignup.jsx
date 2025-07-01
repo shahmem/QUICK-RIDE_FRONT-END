@@ -9,7 +9,7 @@ export default function AdminSignup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/admin/signup", form);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/admin/signup`, form);
       alert("Admin registered");
       navigate("/admin/login");
     } catch (err) {

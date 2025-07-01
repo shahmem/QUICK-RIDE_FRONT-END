@@ -25,7 +25,7 @@ export default function AdminDashboard() {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/admin/user/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/user/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

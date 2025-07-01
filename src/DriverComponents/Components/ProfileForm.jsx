@@ -45,7 +45,7 @@ function ProfileForm() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:5000/api/driverprofile",
+        `${import.meta.env.VITE_API_URL}/api/driverprofile`,
         formData,
         {
           headers: {
@@ -71,7 +71,7 @@ function ProfileForm() {
     try {
       const token = localStorage.getItem("token");
       console.log("Token from localStorage:", token);
-      const res = await axios.get("http://localhost:5000/api/driverprofile", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/driverprofile`, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`, // ✅ Correct usage
