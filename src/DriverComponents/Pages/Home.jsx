@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar'
 import speedmtr from '../../assets/images/speedometer.jpg'
 import WhyDrive from '../Components/WhyDrive'
 import Footer from '../Components/Footer'
-import Menubar from '../Components/MenuBar'
+import MenubarDvr from '../Components/MenuBar'
 
 function Home() {
   return (
@@ -18,7 +18,7 @@ function Home() {
           </div>
         </div>
         <WhyDrive/>
-        <Menubar/>
+        <MenubarDvr/>
         <Footer/>
     </>
   )

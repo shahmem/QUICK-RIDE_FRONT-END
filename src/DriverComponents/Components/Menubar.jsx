@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 
-function Menubar() {
+function MenubarDvr() {
     const [visible, setVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState( 40);
     const navigate =useNavigate()
@@ -48,4 +48,4 @@ function Menubar() {
   )
 }
 
-export default Menubar
+export default MenubarDvr
