@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar'
 import speedmtr from '../../assets/images/speedometer.jpg'
 import WhyDrive from '../Components/WhyDrive'
 import Footer from '../Components/Footer'
-import MenubarDvr from '../Components/MenuBar'
+import MenubarDvr from '../Components/MenubarDvr'
 
 function Home() {
   return (
