@@ -13,7 +13,7 @@ function Drive() {
           Drive when you want, make what you need
           </h1>
           <p className='text-base text-[#414141] font-light mt-3 md:mt-8'>Earn on your own schedule.</p>
-          <a onClick={()=>{navigate('/signup', { state: { active: 'driver' }})}} className='text-white bg-[#31977f] hover:bg-[#206d5b] w-max rounded-lg px-4 py-2 text-xs font-semibold'>Get Started</a>
+          <a onClick={()=>{navigate('/login', { state: { active: 'driver' }})}} className='cursor-pointer text-white bg-[#31977f] hover:bg-[#206d5b] w-max rounded-lg px-4 py-2 text-xs font-semibold'>Get Started</a>
         </div>
         <div className='flex justify-center mt-8 md:py-7'>
           <img className='w-full md:w-[30rem]' src={img3} alt="" />

@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import bgImg from '../assets/images/login_bg.jpg'
+
 
 function Login() {
   const navigate = useNavigate();
@@ -20,7 +22,9 @@ function Login() {
       try {
         const response = await axios.post("http://localhost:5000/api/login", data);
         alert(response.data.message);
-        const { role } = response.data;
+        const { token,role } = response.data;
+        localStorage.setItem("role", role);
+        localStorage.setItem("token", token);
         console.log(response.data)
         if (role === "rider") {
           navigate("/riderhome");
@@ -44,9 +48,9 @@ function Login() {
       {errorMessage && (
         <p className="text-sm bg-[#ffeeee] p-2 font-semibold text-red-600 absolute w-full text-center"><FontAwesomeIcon className="float-left ml-3 text-xl" icon={faXmark} /> {errorMessage}</p>
       )}
-      <div className=" w-full h-full bg-[#a9fde9] px-4 py-10 md:px-32 lg:px-[24%]  md:py-28">
+      <div style={{ backgroundImage:`url(${bgImg})` ,backgroundSize: 'cover',backgroundPosition: 'center',}} className=" w-full h-full bg-[#a9fde9] px-4 py-10 md:px-32 lg:px-[24%]  md:py-28">
         <div className="w-full h-[76vh] md:h-[60vh] flex flex-col md:flex-row items-center ">
-          <div className="h-[15rem] w-[80%] md:h-full md:w-[37%] -mb-7 md:mb-0 bg-[#3aad92] flex flex-col items-center pt-4 md:pt-0 md:justify-center gap-3 md:gap-8 text-white rounded-t-3xl md:rounded-none md:rounded-l-3xl">
+          <div className="h-[15rem] w-[80%] md:h-full shadow-2xl md:w-[37%] -mb-7 md:mb-0 bg-[#3aad92] flex flex-col items-center pt-4 md:pt-0 md:justify-center gap-3 md:gap-8 text-white rounded-t-3xl md:rounded-none md:rounded-l-3xl">
             <p className="text-xl md:text-3xl font-semibold">Hello !</p>
             <p className="text-[9px] md:text-xs text-center font-light max-w-[90%]">
               Enter Your Personal details and start journey with us
@@ -60,7 +64,7 @@ function Login() {
               SIGN UP
             </button>
           </div>
-          <div className="h-full w-[80%] lg:w-[63%]  bg-[#ffffff] rounded-3xl md:rounded-none md:rounded-r-3xl">
+          <div className="h-full w-[80%] lg:w-[63%] shadow-2xl bg-[#ffffff] rounded-3xl md:rounded-none md:rounded-r-3xl">
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center pt-12 gap-3 md:gap-8">
               <p className="text-xl text-center md:text-2xl lg:text-4xl font-bold text-[#3aad92] ">
                 Sign in to QuickRide

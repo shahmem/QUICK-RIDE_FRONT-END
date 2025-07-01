@@ -1,18 +1,9 @@
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 
-function Profile({setSubmitted}) {
-  const [saveddata, setSaveddata] = useState([]);
+function Profile({saveddata}) {
   const navigate =useNavigate()
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("profiledata")) || [];
-    setSaveddata(data);
-    console.log(data);
-    
-  }, []);
   const handleEdit =()=>{
     setSubmitted(false)
     navigate('/profile')
@@ -22,8 +13,8 @@ function Profile({setSubmitted}) {
   return (
     <div className='grid place-items-center pt-36'>
         {saveddata.length > 0 ? (
-            saveddata.map((data)=>(
-            <div>
+            saveddata.map((data,i)=>(
+            <div key={i} >
                 <div className='flex gap-4 p-4  rounded-lg shadow-2xl'>
                 <div className=' p-8 rounded-md'>
                     <div className=''>

@@ -40,7 +40,7 @@ function Navbar({scrollToSection,className,hover}) {
                       <p className=' text-slate-400'>Status</p>
                     </div>
                     <div>
-                      <div onClick={()=>{setIsActive(!isActive)}} className={`w-10 rounded-3xl cursor-pointer ${isActive ? "bg-green-400" : "bg-slate-400"}  h-[18px] p-[1px]`}>
+                      <div onClick={()=>{setIsActive(!isActive)}} className={`w-10 rounded-3xl cursor-pointer transition-all duration-500 ease-in-out transform ${isActive ? "bg-green-400" : "bg-slate-400"}  h-[18px] p-[1px]`}>
                         <div className={`w-[16px] h-[16px] bg-white rounded-full  transition-all duration-500 ease-in-out transform ${isActive ? "translate-x-[22px]" : "translate-x-0"}`}></div>
                       </div>
                     </div>

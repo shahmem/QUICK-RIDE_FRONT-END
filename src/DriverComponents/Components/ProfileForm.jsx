@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import Profile from "./Profile";
 import img from "../../assets/images/img-bg.png";
 import axios from "axios";
+import BackButton from "../../CommonComponents/BackButton";
 
 function ProfileForm() {
   const {
@@ -15,60 +16,49 @@ function ProfileForm() {
   } = useForm();
   const [hasVehicle, setHasVehicle] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const [saveddata, setSaveddata] = useState([]);
   const navigate = useNavigate();
-  const handleFileUpload = (file) => {
-    return new Promise((resolve) => {
-      if (file) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          resolve(reader.result);
-        };
-      } else {
-        resolve(null);
-      }
-    });
-  };
+
   const onSubmit = async (data) => {
-    const file1Base64 = data.photo?.[0]
-      ? await handleFileUpload(data.photo[0], "photo")
-      : null;
-    const file2Base64 = data.licenseImg?.[0]
-      ? await handleFileUpload(data.licenseImg[0], "licenseImg")
-      : null;
-    const file3Base64 = data.rcImg?.[0]
-      ? await handleFileUpload(data.rcImg[0], "rcImg")
-      : null;
-    const file4Base64 = data.insurance?.[0]
-      ? await handleFileUpload(data.insurance[0], "insurance")
-      : null;
+    const formData = new FormData();
 
-    const newFormData = {
-      fname: data.fname,
-      lname: data.lname,
-      email: data.email,
-      phone: data.phone,
-      dateIssued: data.dateIssued,
-      dateexpire: data.dateexpire,
-      license: data.license,
-      regNum: data.regNum || null,
-      brand: data.brand || null,
-      model: data.model || null,
-      year: data.year || null,
-      profilePicture: file1Base64,
-      licenseImg: file2Base64,
-      rcImg: file3Base64,
-      insurance: file4Base64,
-    };
+    formData.append("fname", data.fname);
+    formData.append("lname", data.lname);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("dateIssued", data.dateIssued);
+    formData.append("dateexpire", data.dateexpire);
+    formData.append("license", data.license);
 
+    if (hasVehicle) {
+      formData.append("regNum", data.regNum);
+      formData.append("brand", data.brand);
+      formData.append("model", data.model);
+      formData.append("year", data.year);
+    }
+
+    if (data.photo?.[0]) formData.append("photo", data.photo[0]);
+    if (data.licenseImg?.[0]) formData.append("licenseImg", data.licenseImg[0]);
+    if (data.rcImg?.[0]) formData.append("rcImg", data.rcImg[0]);
+    if (data.insurance?.[0]) formData.append("insurance", data.insurance[0]);
+    console.log(formData);
     try {
+      const token = localStorage.getItem("token");
       const res = await axios.post(
         "http://localhost:5000/api/driverprofile",
-        newFormData
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`, // ✅ Correct usage
+          },
+        }
       );
+
       if (res.status === 201) {
         alert("Form Data Saved to MongoDB!");
         console.log("Form Data Saved to MongoDB!");
+        await checkProfileExists();
         setSubmitted(true);
       }
     } catch (error) {
@@ -77,23 +67,66 @@ function ProfileForm() {
     }
   };
 
-  useEffect(() => {
-    const checkProfileExists = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/driverprofile");
+  const checkProfileExists = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log("Token from localStorage:", token);
+      const res = await axios.get("http://localhost:5000/api/driverprofile", {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, // ✅ Correct usage
+        },
+      });
 
-        // If data exists (you might need to adjust this based on API response)
-        if (res.data) {
-          setSubmitted(true);
-        }
-      } catch (error) {
-        console.error("Error checking profile:", error);
+      const data = res.data;
+      console.log(res);
+
+      if (data) {
+        setSubmitted(true);
+        setSaveddata([data]);
       }
-    };
+    } catch (err) {
+      if (err.response?.status === 404) {
+        console.log("No profile found, showing form");
+      } else {
+        console.error("Other error:", err);
+      }
+    }
+  };
+  useEffect(() => {
 
     checkProfileExists();
   }, []);
-  
+
+  // const handleUpdate = async (e) => {
+  //   e.preventDefault();
+  //   setSubmitted(false)
+  //   const formData = new FormData();
+  //   formData.append("name", name);
+  //   formData.append("vehicleType", vehicleType);
+
+  //   if (photoFile) formData.append("photo", photoFile);
+  //   if (licenseImgFile) formData.append("licenseImg", licenseImgFile);
+  //   if (rcImgFile) formData.append("rcImg", rcImgFile);
+  //   if (insuranceFile) formData.append("insurance", insuranceFile);
+
+  //   try {
+  //     const response = await axios.put(
+  //       "http://localhost:5000/api/driverprofile",
+  //       formData,
+  //       {
+  //         headers: { "Content-Type": "multipart/form-data" },
+  //       }
+  //     );
+  //     console.log("Profile updated:", response.data);
+  //   } catch (error) {
+  //     console.error(
+  //       "Failed to update profile:",
+  //       error.response?.data || error.message
+  //     );
+  //   }
+  // };
+
   const handleCancel = () => {
     reset();
     setHasVehicle(null);
@@ -102,9 +135,10 @@ function ProfileForm() {
 
   return (
     <>
+      <BackButton />
       <Navbar />
       {submitted ? (
-        <Profile setSubmitted={setSubmitted} />
+        <Profile setSubmitted={setSubmitted} saveddata={saveddata} />
       ) : (
         <div
           style={{ backgroundImage: `url(${img})`, backgroundSize: "cover" }}
@@ -413,7 +447,7 @@ function ProfileForm() {
             </div>
             <div className="m-7 flex justify-center gap-4">
               <button
-                type="button"
+                type="reset"
                 onClick={handleCancel}
                 className="px-6 py-2 text-sm bg-gray-800 text-white"
               >

@@ -4,6 +4,8 @@ import Navbar from "./Navbar";
 import { useNavigate } from "react-router";
 import img from "../../assets/images/img-bg.png";
 import Profile from "./Profile";
+import axios from "axios";
+import BackButton from "../../CommonComponents/BackButton";
 
 function ProfileForm() {
   const {
@@ -14,57 +16,78 @@ function ProfileForm() {
   } = useForm();
   const [hasVehicle, setHasVehicle] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const [saveddata, setSaveddata] = useState([]);
   const navigate = useNavigate();
 
-  const handleFileUpload = (file) => {
-    return new Promise((resolve) => {
-      if (file) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          resolve(reader.result);
-        };
-      } else {
-        resolve(null);
-      }
-    });
-  };
-
   const onSubmit = async (data) => {
-    const file3Base64 = data.rcImg[0]
-      ? await handleFileUpload(data.rcImg[0], "rcImg")
-      : null;
-    const file4Base64 = data.insurance[0]
-      ? await handleFileUpload(data.insurance[0], "insurance")
-      : null;
+    const formData = new FormData();
+    formData.append("fname", data.fname);
+    formData.append("lname", data.lname);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("address", data.address);
+    formData.append("state", data.state);
+    formData.append("district", data.district);
+    formData.append("zipcode", data.zipcode);
 
-    const newFormData = {
-      fname: data.fname,
-      lname: data.lname,
-      email: data.email,
-      phone: data.phone,
-      address: data.address,
-      state: data.state,
-      district: data.district,
-      zipcode: data.zipcode,
-      regNum: data.regNum || null,
-      brand: data.brand || null,
-      model: data.model || null,
-      year: data.year || null,
-      rcImg: file3Base64,
-      insurance: file4Base64,
-    };
-    const updateddata = [newFormData];
-    localStorage.setItem("profiledata", JSON.stringify(updateddata)); // Save full form data
-    alert("Form Data Saved!");
-    setSubmitted(true);
+    if (hasVehicle) {
+      formData.append("regNum", data.regNum);
+      formData.append("brand", data.brand);
+      formData.append("model", data.model);
+      formData.append("year", data.year);
+    }
+    if (data.rcImg?.[0]) formData.append("rcImg", data.rcImg[0]);
+    if (data.insurance?.[0]) formData.append("insurance", data.insurance[0]);
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.post(
+        "http://localhost:5000/api/riderprofile",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
+      if (res.status === 201) {
+        alert("Form Data Saved to MongoDB!");
+        console.log("Form Data Saved to MongoDB!");
+        await checkProfileExists();
+        setSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      alert("Failed to save data");
+    }
   };
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("profiledata"));
-    if (savedData && savedData.length > 0) {
-      setSubmitted(true);
-    }
+    checkProfileExists();
   }, []);
+  const checkProfileExists = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      // console.log("Token from localStorage:", token);
+      const res = await axios.get("http://localhost:5000/api/riderprofile", {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+
+      const data = res.data;
+      // console.log(res);
+
+      if (data) {
+        setSubmitted(true);
+        setSaveddata([data]);
+      }
+    } catch (error) {
+      console.error("Error checking profile:", error);
+    }
+  };
+
   const handleCancel = () => {
     reset();
     setHasVehicle(false);
@@ -73,9 +96,10 @@ function ProfileForm() {
 
   return (
     <>
+      <BackButton />
       <Navbar />
       {submitted ? (
-        <Profile setSubmitted={setSubmitted} />
+        <Profile saveddata={saveddata} />
       ) : (
         <form
           style={{ backgroundImage: `url(${img})`, backgroundSize: "cover" }}
