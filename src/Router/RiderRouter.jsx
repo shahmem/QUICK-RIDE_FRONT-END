@@ -9,6 +9,7 @@ import History from "../RiderComponents/Components/History";
 import Transaction from "../RiderComponents/Components/Transaction";
 import ChatWindow from "../RiderComponents/Components/ChatWindow";
 import ScrollToTop from "../CommonComponents/ScrollToTop";
+import Payment from "../RiderComponents/Components/Payment";
 
 function RiderRouter() {
   return (
@@ -23,6 +24,7 @@ function RiderRouter() {
         <Route path="/riderchatswindow" element={<ChatWindow />} />
         <Route path="/riderhistory" element={<History />} />
         <Route path="/ridertransaction" element={<Transaction />} />
+        <Route path="/riderpayment" element={<Payment />} />
       </Routes>
     </>
   );

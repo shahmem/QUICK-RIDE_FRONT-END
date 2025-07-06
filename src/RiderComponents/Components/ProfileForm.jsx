@@ -51,7 +51,7 @@ function ProfileForm() {
           },
         }
       );
-      if (res.status === 201) {
+      if (res.status === 201) { 
         alert("Form Data Saved to MongoDB!");
         console.log("Form Data Saved to MongoDB!");
         await checkProfileExists();

@@ -50,8 +50,8 @@ function Signup() {
                 <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center pt-4 lg:pt-8 gap-2 md:mt-0 mt-4 md:gap-7'>
                     <p className='md:text-3xl lg:text-4xl font-bold text-[#3aad92] '>Create Account</p>
                     <div className='flex md:gap-1 bg-[#1a7c65] text-[10px] md:text-xs font-semibold text-white md:mt-0 mt-4 p-0.5 rounded-3xl'>
-                        <p onClick={() => setActive("driver")} className={`  ${ active === "driver" ?"bg-[#a9fde9] text-[#1a7c65] rounded-3xl":"text-[#a9fde9]"} cursor-pointer px-3 md:px-5 py-1`}>Driver</p>
-                        <p  onClick={() => setActive("rider")} className={` ${ active === "rider" ?"bg-[#a9fde9] text-[#1a7c65] rounded-3xl":"text-[#a9fde9]"} cursor-pointer px-3 md:px-5 py-1 `}>Rider</p>
+                        <p onClick={() => setActive("driver")} className={`transition-all duration-800 ease-out transform  ${ active === "driver" ?"bg-[#a9fde9] text-[#1a7c65] rounded-3xl":"text-[#a9fde9]"} cursor-pointer px-3 md:px-5 py-1`}>Driver</p>
+                        <p  onClick={() => setActive("rider")} className={`transition-all duration-800 ease-out transform ${ active === "rider" ?"bg-[#a9fde9] text-[#1a7c65] rounded-3xl":"text-[#a9fde9]"} cursor-pointer px-3 md:px-5 py-1 `}>Rider</p>
                     </div>
                     <div className='flex flex-col pb-3 md:mt-0 mt-3 [&>div>input]:px-2 [&>div>input]:placeholder:text-[10px] [&>div>input]:bg-slate-200 [&>div>input]:md:placeholder:text-xs gap-3'>
                         <div className="">

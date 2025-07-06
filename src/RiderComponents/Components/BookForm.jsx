@@ -5,30 +5,36 @@ import Navbar from "./Navbar";
 import { useNavigate } from "react-router";
 import BackButton from "../../CommonComponents/BackButton";
 import axios from "axios";
-import { Autocomplete, LoadScript } from "@react-google-maps/api";
+import { Autocomplete } from "@react-google-maps/api";
 
 function BookForm() {
   const navigate = useNavigate();
-
+  
   const [distance, setDistance] = useState("");
+  const [hasVehicle, setHasVehicle] = useState(null);
+  const [isfare, setisfare] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [Fare, setFare] = useState(0);
 
   const sourceRef = useRef(null);
   const destinationRef = useRef(null);
 
   const handleGetFare = () => {
-    const dist = parseFloat(distance.replace(/\D/g, "")); 
-    const dist_sliced =Math.floor(dist / 10);
+    // const dist = parseFloat(distance.replace(/\D/g, ""));
+    const dist = parseFloat(distance);
+    
+    // const dist_sliced = Math.floor(dist / 10);
+    console.log(dist);
 
-      let fareRate = 300;
-      let dist_Fare = 0;
-      let sorted_fare = 0;
+    let fareRate = 300;
+    let dist_Fare = 0;
+    let sorted_fare = 0;
 
-      if (dist_sliced > 10) {
-        sorted_fare = dist_sliced - 10
-        dist_Fare = sorted_fare * 9;
-        fareRate += dist_Fare ;
-      }
-
+    if (dist > 10) {
+      sorted_fare = dist - 10;
+      dist_Fare = sorted_fare * 8;
+      fareRate += dist_Fare;
+    }
 
     setFare(fareRate);
     setisfare(true);
@@ -67,7 +73,6 @@ function BookForm() {
           }
         }
       );
-    
     }
   };
   const {
@@ -76,26 +81,17 @@ function BookForm() {
     formState: { errors },
     reset,
   } = useForm();
-  const [hasVehicle, setHasVehicle] = useState(null);
-  const [isfare, setisfare] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [Fare, setFare] = useState(0);
 
-  // const getfare = () => {
-  //   setisfare(true);
-  //   const randomfare = Math.floor(Math.random() * (1300 - 330 + 1)) + 330;
-  //   setFare(randomfare);
-  // };
   const handleCustomSubmit = (data) => {
     const dataWithFare = {
       ...data,
       fare: Fare,
-      distance: distance, 
+      distance: distance,
     };
-    console.log(
-      "Submit button clicked! Additional action before submission.",
-      data
-    );
+    // console.log(
+    //   "Submit button clicked! Additional action before submission.",
+    //   data
+    // );
     onSubmit(dataWithFare);
   };
 
@@ -107,11 +103,15 @@ function BookForm() {
         return;
       }
 
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/bookings`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/bookings`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log("Form Submitted:", res.data);
       alert("Form submitted successfully!");
       reset(); // clear form
@@ -144,7 +144,7 @@ function BookForm() {
         ) : (
           <form onSubmit={handleSubmit(handleCustomSubmit)} action="/submit">
             <div
-              className={`bg-[#b9b9b925] md:px-16 md:py-8 p-4 py-8 shadow-lg justify-center flex flex-col md:flex-row md:gap-16 gap-12`}
+              className={`bg-[#2c2c2c4b] md:px-16 md:py-8 p-4 py-8 shadow-lg justify-center flex flex-col items-center md:flex-row md:gap-16 gap-12`}
             >
               <div className="w-[16rem] md:w-80">
                 <h2 className="text-2xl font-semibold mb-4 text-white ">
@@ -194,7 +194,19 @@ function BookForm() {
                   <div>
                     <input
                       type="date"
-                      {...register("date", { required: "Date is required" })}
+                      min={new Date().toISOString().split("T")[0]}
+                      {...register("date", {
+                        required: "Date is required",
+                        validate: (value) => {
+                          const selectedDate = new Date(value);
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0);
+                          return (
+                            (!isNaN(selectedDate) && selectedDate >= today) ||
+                            "Date must be today or a future date"
+                          );
+                        },
+                      })}
                       className="w-full px-3 py-1.5 border text-[#fffb] bg-[#2c2c2c4b] border-gray-300 rounded [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:brightness-50 "
                     />
                     {errors.date && (
@@ -311,13 +323,13 @@ function BookForm() {
               </p>
             )}
             {isfare && (
-              <div className="flex flex-col md:flex-row justify-between gap-3">
+              <div className="md:flex md:flex-row justify-between gap-3">
                 <div className="text-white mt-2">
-                  <p className="text-xl p-2 font-semibold">
+                  <p className=" md:text-lg p-2 font-semibold">
                     {Fare} is Expense for Your Ride . Are Sure with this?
                   </p>
                 </div>
-                <div className="flex  gap-1 md:float-right mt-3">
+                <div className="flex gap-1 float-right mt-3">
                   <button
                     onClick={handleCancel}
                     type="button"

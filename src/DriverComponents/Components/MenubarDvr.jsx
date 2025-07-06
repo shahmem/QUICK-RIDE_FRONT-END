@@ -31,15 +31,15 @@ function MenubarDvr() {
             <FontAwesomeIcon className='md:size-5' icon={faCalendarCheck} />
             <p className='text-[9px] md:text-[11px] font-semibold'>Your Ride</p>
           </div>
-          <div  onClick={()=>{navigate('/driverchats')}} className='flex flex-col items-center rounded-3xl p-2 gap-1 hover:bg-slate-200'>
+          {/* <div  onClick={()=>{navigate('/driverchats')}} className='flex flex-col items-center rounded-3xl p-2 gap-1 hover:bg-slate-200'>
             <FontAwesomeIcon className='md:size-5' icon={faComments} />
             <p className='text-[9px] md:text-[11px] font-semibold'>Chats</p>
-          </div>
+          </div> */}
           <div  onClick={()=>{navigate('/driverhistory')}} className='flex flex-col items-center rounded-3xl p-2 gap-1 hover:bg-slate-200'>
             <FontAwesomeIcon className='md:size-5' icon={faClipboardList} />
             <p className='text-[9px] md:text-[11px] font-semibold'>History</p>
           </div>
-          <div  onClick={()=>{navigate('/drivertransaction')}} className='hidden md:flex flex-col rounded-3xl p-2 items-center gap-1 hover:bg-slate-200'>
+          <div  onClick={()=>{navigate('/drivertransaction')}} className=' md:flex flex-col rounded-3xl p-2 items-center gap-1 hover:bg-slate-200'>
             <FontAwesomeIcon className='md:size-5' icon={faMoneyBillTrendUp} />
             <p className='text-[9px] md:text-[11px] font-semibold'>Transaction</p>
           </div>

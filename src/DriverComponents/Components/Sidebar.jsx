@@ -19,12 +19,12 @@ function Sidebar() {
                 Your Rides
                 </div>
               </div>
-              <div  onClick={()=>{navigate('/driverchats')}} className='flex flex-col group items-center rounded-3xl p-6 gap-1 hover:bg-slate-100'>
+              {/* <div  onClick={()=>{navigate('/driverchats')}} className='flex flex-col group items-center rounded-3xl p-6 gap-1 hover:bg-slate-100'>
                 <FontAwesomeIcon className='md:size-6' icon={faComments} />
                 <div className="absolute  text-black text-center p-0.5 mt-12 opacity-0 group-hover:opacity-100 text-xs transition-opacity duration-300">
                 Chats
                 </div>
-              </div>
+              </div> */}
               <div  onClick={()=>{navigate('/driverhistory')}} className='flex flex-col group items-center rounded-3xl p-6 gap-1 hover:bg-slate-100'>
                 <FontAwesomeIcon className='md:size-6' icon={faClipboardList} />
                 <div className="absolute  text-black text-center p-0.5 mt-12 opacity-0 group-hover:opacity-100 text-xs transition-opacity duration-300">
