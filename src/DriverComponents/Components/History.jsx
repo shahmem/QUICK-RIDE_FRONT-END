@@ -103,14 +103,14 @@ function History() {
                   </p>
                   <div className="flex gap-3  items-center">
                     <FontAwesomeIcon className="text-sm" icon={faLocationDot} />
-                    <p className=" font-semibold">{booking.pickup}</p>
+                    <p className=" font-semibold">{booking.pickup.split(",")[0].trim()}</p>
                     <p className="text-xl font-bold">-</p>
                     <p className=" font-semibold">
                       {booking.dropoff.split(",")[0].trim()}
                     </p>
                   </div>
                   <p className="text-xs ml-6">
-                    {booking.distance.split(",")[0].trim()}
+                    {booking.distance}
                   </p>
                 </div>
                 <div className="w-52 border-x-[1px] border-gray-300 text-center">
