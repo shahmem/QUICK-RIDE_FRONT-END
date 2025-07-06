@@ -80,11 +80,11 @@ function YourRide() {
                   <p className="text-xs ml-9">{item.distance}</p>
                 </div>
                 <div>
-                  <p className="text-xl font-bold border-x-[1px] border-gray-300 px-20 py-2 text-blue-900">
+                  <p className="text-xl font-bold border-x-[1px] border-gray-300 px-3 w-40 text-center py-2 text-blue-900">
                     ₹{item.fare}
                   </p>
                 </div>
-                <div className="flex gap-1 items-center px-24 flex-col">
+                <div className="flex gap-1 items-center px-3 w-44 flex-col">
                   <div className="flex gap-2 items-center">
                     <FontAwesomeIcon icon={faClock} />
                     <p className="text-xl font-semibold">{item.time}</p>
@@ -97,9 +97,9 @@ function YourRide() {
                     </p>
                   </div>
                 </div>
-                <div>
+                <div className=" w-48 text-center">
                   { item.ready === "notready" && (
-                    <div className=" border-l-[1px] px-9 border-[#c4c4c494]">
+                    <div className=" border-l-[1px] border-[#c4c4c494]">
                     <button
                     disabled
                       className=" font-semibold bg-gray-400 px-3 py-2 text-white rounded-lg"
@@ -109,7 +109,7 @@ function YourRide() {
                   </div>
                   )}
                   { item.ready === "isready" && (
-                    <div className=" border-l-[1px] px-9 border-[#c4c4c494]">
+                    <div className=" border-l-[1px]  border-[#c4c4c494]">
                       <button
                         onClick={() => handleReady(item._id)}
                         className=" font-semibold bg-green-600 px-3 py-2 text-white hover:bg-green-700 rounded-lg"
@@ -119,7 +119,7 @@ function YourRide() {
                     </div>
                   )}
                   { item.ready === "ready" && (
-                   <div className=" border-l-[1px] px-9 border-[#c4c4c494]">
+                   <div className=" border-l-[1px]  border-[#c4c4c494]">
                     <button
                       disabled
                       className=" font-semibold text-lg text-green-600"
